@@ -6,7 +6,7 @@ class UI():
     window.title('2023 프로젝트')
     window.geometry('950x700')
 
-    #사진,영상 같은거 위치
+    #사진,영상 같은거 위치 75,25의 크기가 너무 작아 영상의 크기가 다른 문제 수정해야함!!!!!!!!!!!!!!!!!!
     ImageLabel=Label(window,bg='red',width=75,height=25)  
     ImageLabel.pack()
     ImageLabel.place(x=0,y=0)
