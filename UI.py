@@ -1,5 +1,5 @@
 from tkinter import*
-import SaveButton as SB
+import SaveButton_tkinter as SB_tk
 
 class UI():
     window=Tk()
@@ -11,10 +11,10 @@ class UI():
     ImageLabel.pack()
     ImageLabel.place(x=0,y=0)
     #영상 저장, 불러오기 버튼
-    SaveButton=Button(window,text='저장',width=15,height=3, command=SB.SaveFile)
+    SaveButton=Button(window,text='저장',width=15,height=3, command=SB_tk.SaveFile)
     SaveButton.pack()
     SaveButton.place(x=600, y=20)
-    LoadButton=Button(window,text='불러오기',width=15,height=3, command=SB.LoadFile)
+    LoadButton=Button(window,text='불러오기',width=15,height=3, command=SB_tk.LoadFile)
     LoadButton.pack()
     LoadButton.place(x=750,y=20)
 
