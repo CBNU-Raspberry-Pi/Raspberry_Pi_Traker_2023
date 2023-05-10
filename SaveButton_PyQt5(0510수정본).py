@@ -1,17 +1,17 @@
 import sys
 import cv2
 from PyQt5.QtCore import QTimer
-from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QPushButton, QFileDialog
+from PyQt5.QtGui import QImage, QPixmap, QFont
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QPushButton, QFileDialog, QWidget, QTableWidget, QTableWidgetItem, QVBoxLayout, QHeaderView
 
-class UI(QMainWindow):
+class UI(QWidget):
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle('2023 프로젝트')
-        self.setGeometry(100, 100, 950, 700)
+        self.setGeometry(0, 480, 640, 850)
 
-        # 비디오 위치
+        # 비디오 위치 (x,y,가로,세로)
         self.video_label = QLabel(self)
         self.video_label.setGeometry(0, 0, 640, 380)
         self.video_label.setStyleSheet("background-color: red;")
@@ -22,6 +22,42 @@ class UI(QMainWindow):
         self.load_button = QPushButton('불러오기', self)
         self.load_button.setGeometry(750, 20, 100, 50)
         self.load_button.clicked.connect(self.open_file)
+
+        # 표 생성
+        self.table = QTableWidget(self)
+        self.table.setGeometry(0, 480, 640, 400)  # 표의 위치와 크기 지정
+        self.table.setRowCount(3)  # 행 수 설정
+        self.table.setColumnCount(4)  # 열 수 설정
+
+        # 표 데이터 입력
+        data = [
+            ['A1', 'B1', 'C1', 'D1'],
+            ['A2', 'B2', 'C2', 'D2'],
+            ['A3', 'B3', 'C3', 'D3']
+        ]
+
+        for i, row in enumerate(data):
+            for j, item in enumerate(row):
+                self.table.setItem(i, j, QTableWidgetItem(item))
+
+        # 열의 넓이 조정
+        self.table.setColumnWidth(0, 100)
+        self.table.setColumnWidth(1, 100)
+        self.table.setColumnWidth(2, 100)
+        self.table.setColumnWidth(3, 100)
+        
+        # 행의 높이 조정
+        for i in range(3):
+            self.table.verticalHeader().setSectionResizeMode(i, QHeaderView.Fixed)
+            self.table.verticalHeader().resizeSection(i, 160)
+        
+        # 글자 크기 조정
+        font = QFont('Arial', 20)  # 글자 크기를 20으로 설정
+        self.table.setFont(font)  # 전체 표의 글자 크기를 설정
+                
+        # 표 크기 조정
+        self.table.resizeColumnsToContents()
+        self.table.resizeRowsToContents()
 
     def open_file(self):
         # 파일 선택 대화상자 생성
@@ -63,3 +99,9 @@ if __name__ == '__main__':
     ui = UI()
     ui.show()
     sys.exit(app.exec_())
+
+if __name__ == '__main__':
+    app = QApplication([])
+    ui = UI()
+    ui.show()
+    app.exec()
