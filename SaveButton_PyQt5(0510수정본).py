@@ -58,6 +58,9 @@ class UI(QWidget):
         # 표 크기 조정
         self.table.resizeColumnsToContents()
         self.table.resizeRowsToContents()
+        
+        # 저장 버튼에 클릭 이벤트 연결
+        self.SaveButton.clicked.connect(self.save_document)
 
     def open_file(self):
         # 파일 선택 대화상자 생성
@@ -73,6 +76,36 @@ class UI(QWidget):
 
             # 비디오 재생
             self.play_video()
+
+    def save_document(self):
+        # 파일 저장 대화상자 생성
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save document", "", "Text Files (*.txt)")
+
+        if file_path:
+            # 동영상 재생 시간 가져오기
+            video_duration = self.cap.get(cv2.CAP_PROP_FRAME_COUNT) / self.cap.get(cv2.CAP_PROP_FPS)
+            video_duration_sec = int(video_duration)  # 재생 시간을 정수로 변환
+
+            # 표의 내용 가져오기
+            table_data = []
+            for i in range(self.table.rowCount()):
+                row_data = []
+                for j in range(self.table.columnCount()):
+                    item = self.table.item(i, j)
+                    if item is not None:
+                        row_data.append(item.text())
+                    else:
+                        row_data.append('')
+                table_data.append(row_data)
+
+            # 문서로 저장
+            with open(file_path, 'w') as file:
+                file.write(f'동영상 재생 시간: {video_duration_sec}초\n')
+                file.write('표의 내용:\n')
+                for row in table_data:
+                    file.write('\t'.join(row) + '\n')
+
+            print('문서 저장이 완료되었습니다.')
 
     def play_video(self):
         ret, frame = self.cap.read()
@@ -99,9 +132,3 @@ if __name__ == '__main__':
     ui = UI()
     ui.show()
     sys.exit(app.exec_())
-
-if __name__ == '__main__':
-    app = QApplication([])
-    ui = UI()
-    ui.show()
-    app.exec()
