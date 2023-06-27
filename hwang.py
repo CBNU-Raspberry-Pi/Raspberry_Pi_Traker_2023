@@ -1,10 +1,13 @@
 
 from PyQt5 import *
+import cv2
+import threading
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtCore import *
 import sys
+
 
                
 # class Thread3(QThread):
@@ -20,13 +23,12 @@ import sys
 
 
 form_class = uic.loadUiType('ui.ui')[0]
+running = False
 
 class WindowClass(QMainWindow, form_class) :
     def __init__(self) :
         super().__init__()
         self.setupUi(self)
-
-
 
         self.btn1.clicked.connect(self.btnFun1)
         # self.btn_save.clicked.connect(self.btnFun_save)
@@ -37,7 +39,10 @@ class WindowClass(QMainWindow, form_class) :
     def btnFun1(self):
         print('ddd')
 
+    def run():
+        
 
+        
 #     def btnFun_save(self):
 
 
