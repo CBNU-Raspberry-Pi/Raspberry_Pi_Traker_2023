@@ -29,6 +29,8 @@ class WindowClass(QMainWindow, form_class) :
     def __init__(self) :
         super().__init__()
         self.setupUi(self)
+        self.webcam = cv2.VideoCapture(0)
+
 
         self.btn1.clicked.connect(self.btnFun1)
         # self.btn_save.clicked.connect(self.btnFun_save)
@@ -39,8 +41,6 @@ class WindowClass(QMainWindow, form_class) :
     def btnFun1(self):
         print('ddd')
 
-    def run():
-        
 
         
 #     def btnFun_save(self):
