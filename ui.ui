@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>764</width>
+    <height>603</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="btn1">
     <property name="geometry">
      <rect>
-      <x>610</x>
-      <y>20</y>
+      <x>670</x>
+      <y>10</y>
       <width>71</width>
       <height>41</height>
      </rect>
@@ -27,26 +27,10 @@
      <string>save</string>
     </property>
    </widget>
-   <widget class="QFrame" name="VidioFrame">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>571</width>
-      <height>381</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-   </widget>
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>30</x>
       <y>420</y>
       <width>341</width>
       <height>121</height>
@@ -88,10 +72,10 @@
      </property>
     </item>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="StartBtn">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>670</x>
       <y>90</y>
       <width>71</width>
       <height>41</height>
@@ -101,10 +85,10 @@
      <string>start</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="StopBtn">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>670</x>
       <y>130</y>
       <width>71</width>
       <height>41</height>
@@ -117,11 +101,24 @@
    <widget class="QWidget" name="graph" native="true">
     <property name="geometry">
      <rect>
-      <x>400</x>
+      <x>440</x>
       <y>410</y>
       <width>271</width>
       <height>131</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="CLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>581</width>
+      <height>341</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>
@@ -130,7 +127,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>764</width>
      <height>21</height>
     </rect>
    </property>

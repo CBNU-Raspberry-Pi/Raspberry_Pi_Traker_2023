@@ -23,24 +23,45 @@ import sys
 
 
 form_class = uic.loadUiType('ui.ui')[0]
-running = False
 
 class WindowClass(QMainWindow, form_class) :
     def __init__(self) :
         super().__init__()
         self.setupUi(self)
-        self.webcam = cv2.VideoCapture(0)
 
-
+        self.StartBtn.clicked.connect(self.StartFun)
         self.btn1.clicked.connect(self.btnFun1)
+        self.StopBtn.clicked.connect(self.StopFun)
+            
         # self.btn_save.clicked.connect(self.btnFun_save)
         # self.btn_start.clicked.connect(self.btnFun_start)
         # self.btn_stop.clicked.connect(self.btnFun_stop)
 
 
     def btnFun1(self):
-        print('ddd')
+        print('save')
 
+    def StartFun(self):
+        self.capture = cv2.VideoCapture(0)
+        self.capture.set(cv2.CAP_PROP_FRAME_WIDTH,700)
+        self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT,500)
+
+        while cv2.waitKey(33)<0:
+            ret,frame = self.capture.read()
+            if ret :
+                frame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
+                img = QImage(frame,frame.shape[1],frame.shape[0],QImage.Format_RGB888)
+                pixmap=QPixmap.fromImage(img)
+                self.CLabel.setPixmap(pixmap)
+            else :
+                print("error: Could not read frame")
+                break
+
+    def StopFun(self):
+        if not self.capture.isOpened():
+            return
+        self.capture.release()
+        self.CLabel.clear()
 
         
 #     def btnFun_save(self):
