@@ -1,13 +1,14 @@
 
 from PyQt5 import *
 import cv2
-import threading
+import numpy as np
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtCore import *
 import sys
-
+import contours as ct
+import draw_contours as dr
 
                
 # class Thread3(QThread):
@@ -19,9 +20,6 @@ import sys
 #     def run(self):
 
 
-
-
-
 form_class = uic.loadUiType('ui.ui')[0]
 
 class WindowClass(QMainWindow, form_class) :
@@ -29,21 +27,22 @@ class WindowClass(QMainWindow, form_class) :
         super().__init__()
         self.setupUi(self)
 
-        self.StartBtn.clicked.connect(self.StartFun)
         self.btn1.clicked.connect(self.btnFun1)
+        self.StartBtn.clicked.connect(self.StartFun)
         self.StopBtn.clicked.connect(self.StopFun)
-            
-        # self.btn_save.clicked.connect(self.btnFun_save)
-        # self.btn_start.clicked.connect(self.btnFun_start)
-        # self.btn_stop.clicked.connect(self.btnFun_stop)
+        self.StartBtn_2.clicked.connect(self.StartFun2)
+        self.StopBtn_2.clicked.connect(self.StopFun2)
+        self.ObSize.sliderReleased.connect(self.ChangeSize)
+        self.GrayContours.sliderReleased.connect(self.ChangeCon)
 
 
     def btnFun1(self):
         print('save')
 
     def StartFun(self):
+        global frame
         self.capture = cv2.VideoCapture(0)
-        self.capture.set(cv2.CAP_PROP_FRAME_WIDTH,700)
+        self.capture.set(cv2.CAP_PROP_FRAME_WIDTH,730)
         self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT,500)
 
         while cv2.waitKey(33)<0:
@@ -62,6 +61,25 @@ class WindowClass(QMainWindow, form_class) :
             return
         self.capture.release()
         self.CLabel.clear()
+
+    def StartFun2(self):
+        frame2 = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) ## 새로받은 이미지 흑백처리
+        frame2 = cv2.GaussianBlur(src=frame2, ksize=(5, 5), sigmaX=0)
+        print('good job')
+
+    def StopFun2(self):
+        print('bbb')
+
+
+    def ChangeSize(self):
+        Size = self.ObSize.value()
+        self.Obsize.setText(self.sizenum.text())
+
+        
+    def ChangeCon(self):
+        con = self.GrayContours.value()
+        self.GrayContours.setText(self.connum.text())
+        
 
         
 #     def btnFun_save(self):
