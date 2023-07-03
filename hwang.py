@@ -30,10 +30,10 @@ class WindowClass(QMainWindow, form_class) :
         self.btn1.clicked.connect(self.btnFun1)
         self.StartBtn.clicked.connect(self.StartFun)
         self.StopBtn.clicked.connect(self.StopFun)
-        self.StartBtn_2.clicked.connect(self.StartFun2)
-        self.StopBtn_2.clicked.connect(self.StopFun2)
         self.ObSize.sliderReleased.connect(self.ChangeSize)
         self.GrayContours.sliderReleased.connect(self.ChangeCon)
+        self.StartBtn_2.clicked.connect(self.StartFun2)
+        self.StopBtn_2.clicked.connect(self.StopFun2)
 
 
     def btnFun1(self):
@@ -62,23 +62,37 @@ class WindowClass(QMainWindow, form_class) :
         self.capture.release()
         self.CLabel.clear()
 
+    def ChangeSize(self):
+        global Size
+        Size = self.ObSize.value()
+        self.sizenum.setText(str(Size))
+
+        
+    def ChangeCon(self):
+        global con
+        con = self.GrayContours.value()
+        self.connum.setText(str(con))
+
     def StartFun2(self):
-        frame2 = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) ## 새로받은 이미지 흑백처리
-        frame2 = cv2.GaussianBlur(src=frame2, ksize=(5, 5), sigmaX=0)
+        GrayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) ## 새로받은 이미지 흑백처리
+        GrayFrame = cv2.GaussianBlur(src=GrayFrame, ksize=(5, 5), sigmaX=0)
+
+        #여기 고쳐야 됨.
+        pre_frame = GrayFrame
+        total_sketch = frame
+
+        ctr = ct.find_contours(pre_frame,GrayFrame,int(Size))
+        img = dr.draw_contours(total_sketch,ctr,int(con))
+        Qimg = QImage(img,frame.shape[1],frame.shape[0],QImage.Format_RGB888)
+        pixmap=QPixmap.fromImage(Qimg)
+        self.CLabel.setPixmap(pixmap)
+
+
         print('good job')
 
     def StopFun2(self):
         print('bbb')
 
-
-    def ChangeSize(self):
-        Size = self.ObSize.value()
-        self.Obsize.setText(self.sizenum.text())
-
-        
-    def ChangeCon(self):
-        con = self.GrayContours.value()
-        self.GrayContours.setText(self.connum.text())
         
 
         
