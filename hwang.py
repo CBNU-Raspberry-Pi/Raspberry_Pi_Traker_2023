@@ -74,19 +74,31 @@ class WindowClass(QMainWindow, form_class) :
         self.connum.setText(str(con))
 
     def StartFun2(self):
+        t=0
+        self.CLabel.clear()
+        pre_frame = 0
         GrayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) ## 새로받은 이미지 흑백처리
         GrayFrame = cv2.GaussianBlur(src=GrayFrame, ksize=(5, 5), sigmaX=0)
 
-        #여기 고쳐야 됨.
-        pre_frame = GrayFrame
-        total_sketch = frame
+        while self.capture.isOpened():
+            if t != 0:
 
-        ctr = ct.find_contours(pre_frame,GrayFrame,int(Size))
-        img = dr.draw_contours(total_sketch,ctr,int(con))
-        Qimg = QImage(img,frame.shape[1],frame.shape[0],QImage.Format_RGB888)
-        pixmap=QPixmap.fromImage(Qimg)
-        self.CLabel.setPixmap(pixmap)
+                h,w = GrayFrame.shape
+                # total_sketch = np.zeros((h,w,3),dtype=np.uint8)
+                total_sketch = frame
 
+                ctr = ct.find_contours(pre_frame,GrayFrame,Size)
+                img = dr.draw_contours(total_sketch,ctr,con)
+                Qimg = QImage(img,frame.shape[1],frame.shape[0],QImage.Format_RGB888)
+                pixmap=QPixmap.fromImage(Qimg)
+                self.CLabel.setPixmap(pixmap)
+            if cv2.waitKey(50) & 0xFF == ord('q'):
+                break
+
+            pre_frame = GrayFrame
+            t = 1 
+
+        frame.release()
 
         print('good job')
 
