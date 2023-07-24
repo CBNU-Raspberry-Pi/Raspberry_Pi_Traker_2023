@@ -10,7 +10,7 @@ class UI():
         self.window.geometry('950x700')
 
         # 비디오 위치
-        self.video_label = Label(self.window, bg='red', width=640, height=380)  
+        self.video_label = Label(self.window, bg='red', width=0, height=50)  
         self.video_label.pack()
         self.video_label.place(x=0, y=0)
 
