@@ -36,7 +36,7 @@ xloc_data = []
 yloc_data = []
 time_data = []
 
-move_sketch = np.zeros((480,640,3),dtype=np.uint8)
+move = np.zeros((480,640,3),dtype=np.uint8)
 
 
 
@@ -50,7 +50,7 @@ def change_text2():
 
 def change_text3():
     global t
-    t*= -1
+    t -= 2
 
 def change_text4():
     global st
@@ -87,30 +87,43 @@ button33.pack()
 
 pre_frame = 0
 
-cam = cv2.VideoCapture(0,cv2.CAP_DSHOW) ## 카메라 끌떄 오류 안나오도록 
+cam = cv2.VideoCapture(0) ## 카메라 끌떄 오류 안나오도록
+cam.set
+status, frame = cam.read()
+
+h,w,c = frame.shape
 
 
-while 1:
+if not cam.isOpened():
+    print("Could not open webcam")
+    exit()
 
-
+while cam.isOpened():
     status, frame = cam.read()
-    frame = cv2.flip(frame,1)
+    
+    
+    root.update()
+    root2.update()
+    root3.update()
+    root4.update()
 
-    # frame = dv.img_div(frame)
-    # frame = cv2.flip(frame,1)
+    
+    if t == -1:
+        break
+    
+    
 
     # cv2.imshow("current", frame)
+#     frame = cv2.flip(frame,1)
+#     frame = cv2.flip(frame,0)
 
     frame2 = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) ## 새로받은 이미지 흑백처리
     frame2 = cv2.GaussianBlur(src=frame2, ksize=(5, 5), sigmaX=0)
 
     if t == 1:
 
-        old_loc = ini_loc
-
-        h,w = frame2.shape
+#         h,w = frame2.shape
         total_sketch = np.zeros((h,w,3),dtype=np.uint8)
-        
         total_sketch[:,:] = frame[:,:]
 
         # cv2.imshow("pre",pre_frame)
@@ -118,20 +131,25 @@ while 1:
         ctr = ct.find_contours(pre_frame,frame2,th1)
         ini_loc = fo.draw_contours(ini_loc,ctr,th2)
 
+        
+        # cv2.imshow("con",img)
+        
 
-        
-        # cv2.imshow("con",img)
-        
-        
-        # cv2.imshow("con",img)
-        
+
         cv2.putText(total_sketch, str(th1), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
         cv2.putText(total_sketch, str(th2), (10, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-        
+
         hmm = dv.img_div(total_sketch,ini_loc)
         cv2.circle(img=total_sketch, center=(ini_loc[0],ini_loc[1]),radius=int((th2/3)**0.5), color=(0, 0, 255), thickness=2)
-        # print(hmm)
+        cv2.line(move,old_loc,ini_loc,(0,120,120),1,cv2.LINE_4)
+
+        
+#         cv2.imshow("current2", move)
+
+
+        old_loc = ini_loc
+    
         if st == 1:
 
             time_data.append(time.time()-start)
@@ -139,9 +157,8 @@ while 1:
             yloc_data.append(ini_loc[1])
 
 
-
-            cv2.line(move_sketch,old_loc,ini_loc,(0,0,255),1,cv2.LINE_4)
-            cv2.imshow("loc", move_sketch)
+            cv2.line(move,old_loc,ini_loc,(0,0,255),1,cv2.LINE_4)
+            cv2.imshow("loc", move)
             
         elif st == -1:
 
@@ -150,34 +167,21 @@ while 1:
             time_data = []
 
 
-            move_sketch = np.zeros((480,640,3),dtype=np.uint8)
+            move = np.zeros((480,640,3),dtype=np.uint8)
             cv2.putText(total_sketch, str("STOP"), (10, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-            cv2.imshow("loc", move_sketch)
+            cv2.imshow("loc", move)
             start = time.time()
-            
-
-        cv2.imshow("current3", total_sketch)
-
-
-        root.update()
-        root2.update()
-        root3.update()
-        root4.update()
-
         
+        cv2.imshow("current3", total_sketch)
     
-    if t == -1:
-        break
-
-    # if cv2.waitKey(1) and 0xFF == ord('q'):
-    #     break
-
-
-    message = str(hmm)
+    cv2.waitKey(1)
+    
+   
 
     pre_frame = frame2
     t = 1 
 
+cam.release()
 cv2.destroyAllWindows()
 
 plt.plot(time_data,xloc_data,label = "x axis")
@@ -187,7 +191,6 @@ plt.legend()
 plt.ylabel("x, y axis (pixel)")
 plt.xlabel("time(second)")
 
-print(len(time_data))
-print(len(xloc_data))
-
 plt.show()
+
+
