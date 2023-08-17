@@ -1,4 +1,8 @@
 ## this code is from https://youtu.be/2IjZkPQT458
+## this code is just tracking some specific colour
+## in this code, some variables are named about "blue" but it track colour green
+## I didn't recorrect variables names so do not confuse about it
+## and also I recommend to know about HSV.
 
 import cv2 as cv
 
