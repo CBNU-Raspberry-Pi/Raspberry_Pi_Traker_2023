@@ -22,6 +22,9 @@ servo_y = GPIO.PWM(servo_y_pin, 50)
 servo_x.start(0)
 servo_y.start(0)
 
+servo_min_duty = 1
+servo_max_duty = 13
+
 # function of control which motor and move how many degree
 def set_servo_degree(servo_num, degree):
     if degree > 180:
