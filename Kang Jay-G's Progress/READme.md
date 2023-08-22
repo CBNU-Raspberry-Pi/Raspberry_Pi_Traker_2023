@@ -13,4 +13,4 @@ and also added circle, rectangle and lattice on the screen\
 but didn't solve clean up issue yet\
 I will add HSV spectrum bar so user can easily check the tracking colour\
 We have to considering about HSL because L(lightness) will be more practical then V(value)\
-
+https://forum.freecodecamp.org/t/the-basic-principles-of-web-design-a-guide-to-using-hsl-what-is-it-and-is-it-better-than-rgb/326663
