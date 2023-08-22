@@ -11,4 +11,6 @@ terminal said, it has cleanup problem so I will research it\
 I uploaded colour tracker without P.R. and motors\
 and also added circle, rectangle and lattice on the screen\
 but didn't solve clean up issue yet\
-I will add HSV spectrum bar so user can easily check the tracking colour
+I will add HSV spectrum bar so user can easily check the tracking colour\
+We have to considering about HSL because L(lightness) will be more practical then V(value)\
+
